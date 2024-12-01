@@ -1,0 +1,11 @@
+{
+  "name": "aoc-2024",
+  "version": "1.0.0",
+  "description": "Advent of Code 2024",
+  "scripts": {
+    "run": "node run.js"
+  },
+  "author": "rozbrajaczpoziomow",
+  "license": "AGPL-3.0",
+  "type": "module"
+}
