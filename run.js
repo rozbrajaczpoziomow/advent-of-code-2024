@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, stat, writeFile } from 'node:fs/promises';
 
 let aocSession;
 async function downloadInput(day) {
@@ -12,18 +12,20 @@ async function downloadInput(day) {
 		}
 	});
 
+	const text = (await resp.text()).trimEnd('\n');
+
 	if(resp.ok)
-		await writeFile('input.txt', await resp.body());
+		await writeFile('input.txt', text);
 	else
 		console.error(`Couldn't download input (response code ${resp.status}) - aoc session expired?`);
 }
 
 const days = [];
-if(process.argv[1]) {
-	if(process.argv[1] === 'all')
+if(process.argv[2]) {
+	if(process.argv[2] === 'all')
 		days.push(...new Array(25).fill(0).map((x, i) => i + 1));
 	else
-		days.push(...process.argv.slice(1).map(x => +x).filter(x => x && !Number.isNaN(x)));
+		days.push(...process.argv.slice(2).map(x => +x).filter(x => x && !Number.isNaN(x)));
 } else {
 	const date = new Date();
 	if(!process.cwd().includes(date.getFullYear()) || date.getMonth() !== 11) {
@@ -40,24 +42,20 @@ for(const day of days) {
 
 	process.chdir(folder); // this solves readFile('./input.txt') and any other things that might rely on it (i.e. makes things simpler for me)
 	try {
-		stat('input.txt');
+		await stat('input.txt');
 	} catch {
 		await downloadInput(day);
 	}
-	const { part1, part2 } = await import('./day.js');
-	console.log('> Part 1:');
+	const { part1, part2 } = await import(`./${folder}/day.js`);
+	const startTime = performance.now();
 	const ans1 = await part1();
-	if(ans1 === null)
-		console.log('> NYI (returned null)');
-	else
-		console.log(ans1);
+	if(ans1 !== null)
+		console.log(`> Part 1:\n${ans1}\n`);
 
-	console.log('> Part 2:');
 	const ans2 = await part2();
-	if(ans1 === null)
-		console.log('> NYI (returned null)');
-	else
-		console.log(ans2);
+	if(ans2 !== null)
+		console.log(`> Part 2:\n${ans2}`);
+	console.log(`\n${(performance.now() - startTime).toFixed(0)}ms`);
 
 	process.chdir(origCwd);
 }
