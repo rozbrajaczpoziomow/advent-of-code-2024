@@ -48,7 +48,6 @@ export async function part2() {
 
 	for(const line of input) {
 		ns = line.split(' ').map(x => +x);
-		console.log(ns);
 		if(safe(ns)) {
 			++n;
 			continue;
