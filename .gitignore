@@ -2,3 +2,5 @@ aocSession.txt
 state.json
 node_modules
 **/input.txt
+**/day.o
+**/day
