@@ -28,7 +28,7 @@ export async function part2() {
 	for(const line of input) {
 		for(const m of [...line.matchAll(/(mul\((\d{1,3}),(\d{1,3})\)|(do\(\))|(don't\(\)))/g)]) {
 			const inst = m[1];
-			console.log(inst);
+			// console.log(inst);
 			if(inst === 'don\'t()') {
 				on = false;
 				continue;
