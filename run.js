@@ -95,7 +95,7 @@ for(const day of days) {
 	} catch {
 		await downloadInput(day);
 	}
-	const { part1, part2 } = await import(`./${folder}/day.js`);
+	const { part1, part2 } = await import(`./${folder}/${process.env.RUN ?? 'day.js'}`);
 	let startTime = performance.now();
 	const ans1 = await part1();
 	const part1Time = performance.now() - startTime;
