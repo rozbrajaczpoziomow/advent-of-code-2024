@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 const asc = (a, b) => a - b;
 const desc = (a, b) => b - a;
 const count = (arr, what) => arr.filter(el => el === what).length;
-const { abs, sqrt, sin, cos, floor, ceil, round } = Math;
+const { abs, sqrt, sin, cos, floor, ceil, round, min, max } = Math;
 
 export async function part1() {
 	let input = (await readFile(process.env.IN ?? 'input.txt')).toString().split('\n');

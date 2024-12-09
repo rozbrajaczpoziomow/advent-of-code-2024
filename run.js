@@ -25,6 +25,9 @@ async function downloadInput(day) {
 // thanks to myself: https://github.com/rozbrajaczpoziomow-kt/aoc-kotlin-template/blob/main/src/main/kotlin/AOCInteractions.kt#L40
 let state;
 async function submit(day, part, sol) {
+	if(process.env.IN) // don't prompt to submit for custom/test inputs
+		return;
+
 	if(aocSession == null)
 		aocSession = await readFile('../aocSession.txt');
 
