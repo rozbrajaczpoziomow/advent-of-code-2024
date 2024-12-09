@@ -89,6 +89,7 @@ if(process.argv[2]) {
 
 const origCwd = process.cwd();
 
+let totalTime = 0;
 for(const day of days) {
 	const folder = `${day}`.padStart(2, '0');
 
@@ -98,7 +99,17 @@ for(const day of days) {
 	} catch {
 		await downloadInput(day);
 	}
-	const { part1, part2 } = await import(`./${folder}/${process.env.RUN ?? 'day.js'}`);
+	let file = process.env.RUN;
+	if(!file) {
+		try {
+			await stat('day.op.js');
+			file = 'day.op.js';
+		} catch {
+			file = 'day.js';
+		}
+	}
+	console.log(`> -- Day ${day}${file == 'day.js'? '' : ` [${file}]`} --`);
+	const { part1, part2 } = await import(`./${folder}/${file}`);
 	let startTime = performance.now();
 	const ans1 = await part1();
 	const part1Time = performance.now() - startTime;
@@ -115,8 +126,10 @@ for(const day of days) {
 		await submit(day, 2, ans2);
 	}
 	console.log(`\npt 1: ${part1Time.toFixed(1)}ms; pt 2: ${part2Time.toFixed(1)}ms`);
+	totalTime += part1Time + part2Time;
 
 	process.chdir(origCwd);
 }
 
-process.exit(0);
+if(days.length > 1)
+	console.log(`Total time: ${(totalTime / 1000).toFixed(1)} s`);
