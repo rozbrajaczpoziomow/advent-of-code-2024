@@ -22,13 +22,12 @@ export async function part1() {
 		}
 		free = !free;
 	}
-	while(space.at(-1) == null) {
+	while(space[space.length - 1] == null)
 		--space.length;
-	}
 	while(true) {
 		let idx = space.indexOf(null);
 		if(idx == -1) break;
-		space[idx] = space.at(-1);
+		space[idx] = space[space.length - 1];
 		--space.length;
 	}
 	let sum = 0;
@@ -55,21 +54,24 @@ export async function part2() {
 		}
 		free = !free;
 	}
-	// console.log(space.length);
-	while(space.at(-1) == null) {
+	while(space[space.length - 1] == null)
 		--space.length;
-	}
-	// console.log(space);
+
 	let done = 10000;
-	// console.log(space.map(x=>x==null?'.':''+x).join(''))
 	while(true) {
-		// console.log(space.filter(x=>x!=null).filter(x=>!done.includes(x)).at(-1));
-		let now = space.findLast(x=>x!=null&&x<done);
-		if(now == undefined)
+		let nowidx = space.findLastIndex(x=>x!=null&&x<done);
+		if(nowidx == -1)
 			break;
-		// console.log(now);
-		let cnt = count(space, now);
-		let idx = space.indexOf(now);
+		let now = space[nowidx];
+		let cnt = 1, idx;
+		for(let i = nowidx - 1;; --i) {
+			if(space[i] == now) {
+				++cnt;
+			} else {
+				idx = i + 1;
+				break;
+			}
+		}
 		done = now;
 		let ncn = 0, si = 0;
 		for(let i = 0; i < idx + 1; ++i) {
@@ -81,10 +83,9 @@ export async function part2() {
 					si = i;
 					continue;
 				}
-				space = space.map(x => x == now? null : x);
-				// for(let j = si + 1; j < i; ++j) {
 				for(let j = 0; j < cnt; ++j) {
 					space[si + j + 1] = now;
+					space[idx + j] = null;
 				}
 				ncn = 0;
 				si = i;
