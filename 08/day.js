@@ -12,6 +12,7 @@ export async function part1() {
 	for(const line of input) {
 
 	}
+	console.log('solved in pascal');
 	return null;
 }
 
@@ -22,5 +23,6 @@ export async function part2() {
 	for(const line of input) {
 
 	}
+	console.log('solved in pascal');
 	return null;
 }

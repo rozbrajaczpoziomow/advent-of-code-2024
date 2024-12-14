@@ -133,3 +133,5 @@ for(const day of days) {
 
 if(days.length > 1)
 	console.log(`Total time: ${(totalTime / 1000).toFixed(1)} s`);
+
+process.exit(0);
