@@ -10,7 +10,8 @@ async function downloadInput(day) {
 
 	const resp = await fetch(`https://adventofcode.com/${year}/day/${day}/input`, {
 		headers: {
-			Cookie: `session=${aocSession}`
+			Cookie: `session=${aocSession}`,
+			'User-Agent': 'gh/rozbrajaczpoziomow/advent-of-code-2024 <https://rozbrajacz.futbol/>'
 		}
 	});
 
